@@ -3,16 +3,16 @@
 #include<LiquidCrystal_I2C.h>
 LiquidCrystal_I2C lcd(0x27,20,4);
 #include<Wire.h>
+#include<Servo.h>
 
-#define A 2
-#define B 3
-#define C 4
-#define D 5
 
-int trigpin = 6;
-int echopin= 7;
-int trig2=8;
-int echo2=9;
+
+
+int trigpin = 9;
+int pos;
+int trig2=6;
+int echo2=7;
+int servopin=3;
 int buzzer=13;
 int duration=0;
 int distance=0;
@@ -22,7 +22,8 @@ long avrg[3];
 int lvl=0;
 int status_level=0;
 int count=0;
-#define num_of_steps    525
+
+Servo myservo;
 
 void setup(){
   Serial.begin(9600);
@@ -30,19 +31,21 @@ void setup(){
   lcd.init();
   lcd.backlight();
   
-  pinMode(A,OUTPUT);
-  pinMode(B,OUTPUT);
-  pinMode(C,OUTPUT);
-  pinMode(D,OUTPUT);
+  
   pinMode(trigpin,INPUT);
-  pinMode(echopin,INPUT);
+  
   pinMode(trig2,OUTPUT);
   pinMode(echo2,INPUT);
   pinMode(buzzer,OUTPUT);
+  myservo.attach(servopin);
+
+  
 }
 void loop()
 { 
   detect();
   op();
+  Serial.println(lvl);
+  delay(500);
 
 }
